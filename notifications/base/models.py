@@ -13,7 +13,10 @@ from django.db.models.query import QuerySet
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.six import text_type
-from jsonfield.fields import JSONField
+if settings.DATABASES['default']['ENGINE'] == 'django.db.backends.postgresql_psycopg2' and StrictVersion(get_version()) >= StrictVersion('1.9.0'):
+    from django.contrib.postgres.fields import JSONField
+else:
+    from jsonfield.fields import JSONField
 from model_utils import Choices
 
 from notifications import settings as notifications_settings
