@@ -42,6 +42,7 @@ setup(
         'notifications',
         'notifications.templatetags',
         'notifications.migrations',
+        'notifications.base',
     ],
     package_data={
         'notifications': ['templates/notifications/*.html', 'static/notifications/*.js']
