@@ -28,8 +28,8 @@ Nomenclature of this specification is based on the Activity Streams Spec: `<http
 Requirements
 ============
 
-- Python 2.7, 3.4, 3.5, 3.6
-- Django 1.7, 1.8, 1.9, 1.10, 1.11, 2.0
+- Python 3.5, 3.6, 3.7, 3.8
+- Django 2.2, 3.0
 
 Installation
 ============
@@ -47,7 +47,7 @@ or get it from source
     $ git clone https://github.com/django-notifications/django-notifications
     $ cd django-notifications
     $ python setup.py sdist
-    $ pip install dist/django-notifications-hq*a
+    $ pip install dist/django-notifications-hq*
 
 Note that `django-model-utils <http://pypi.python.org/pypi/django-model-utils>`_ will be installed: this is required for the pass-through QuerySet manager.
 
@@ -408,7 +408,9 @@ In case you need to customize the notification model in order to add field or
 customised features that depend on your application, you can inherit and extend
 the ``AbstractNotification`` model, example:
 
-.. code-block:: python
+..  code-block:: python
+
+    #In your_app/models.py
 
     from django.db import models
     from notifications.base.models import AbstractNotification
@@ -422,6 +424,14 @@ the ``AbstractNotification`` model, example:
         class Meta(AbstractNotification.Meta):
             abstract = False
 
+You will require to define ``NOTIFICATIONS_NOTIFICATION_MODEL`` setting in `setting.py` as follows:
+
+..  code-block:: python
+
+    # In your_project/settings.py
+
+    NOTIFICATIONS_NOTIFICATION_MODEL = 'your_app.Notification'
+
 Notes
 =====
 
@@ -430,6 +440,20 @@ Email Notification
 
 Sending email to users has not been integrated into this library. So for now you need to implement it if needed. There is a reserved field `Notification.emailed` to make it easier.
 
+Sample App
+----------
+
+A sample app has been implemented in ``notifications/tests/sample_notifications`` that extends ``django-notifications`` with the sole purpose of testing its extensibility.
+You can run the SAMPLE APP by setting the environment variable ``SAMPLE_APP`` as follows
+
+..  code-block:: shell
+
+    export SAMPLE_APP=1
+    # Run the Django development server with sample_notifications app installed
+    python manage.py runserver
+    # Unset SAMPLE_APP to remove sample_notifications app from list of INSTALLED_APPS
+    unset SAMPLE_APP
+
 
 ``django-notifications`` Team
 ==============================
@@ -437,6 +461,7 @@ Sending email to users has not been integrated into this library. So for now you
 Core contributors (in alphabetical order):
 
 - `Alvaro Leonel <https://github.com/AlvaroLQueiroz>`_
+- `Federico Capoano <https://github.com/nemesisdesign>`_
 - `Samuel Spencer <https://github.com/LegoStormtroopr>`_
 - `Yang Yubo <https://github.com/yangyubo>`_
 - `Zhongyuan Zhang <https://github.com/zhang-z>`_
